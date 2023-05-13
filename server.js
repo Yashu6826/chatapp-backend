@@ -28,26 +28,26 @@ app.use("/api/message",messageRoutes);
 
 // -----------------DEPLOYMENT----------------------
 
-// const __dirname1 = path.resolve();
+const __dirname1 = path.resolve();
 
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname1, "/frontend/build")));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
 
-//   app.get("*", (req, res) =>
-//     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-//   );
-// } else {
-//   app.get("/", (req, res) => {
-//     res.send("API is running..");
-//   });
-// }
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1,"CHATTINGAPP", "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
 
 //  ------------------------------------
 
 app.use(notFound)
 app.use(errorHandler)
 
-const PORT = process.env.PORT||5000;
+const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT,console.log(`serveris running on port ${PORT}`))
 
@@ -62,7 +62,7 @@ io.on("connection",(socket) =>{
     console.log("connected to socket.io");
     socket.on('setup',(userData) =>{
      socket.join(userData._id);
-    //  console.log(userData._id);
+    console.log(userData._id);
      socket.emit("Connected");
     });
     socket.on('join chat',(room)=>{
